@@ -1,0 +1,21 @@
+spring:
+  profiles: dev
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: ${emailId}
+    password: ${emailPass}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+url: jdbc:mysql://localhost:${port}/${dbName}
+dbUserName: ${dbUserName}
+dbPassword: ${dbUserPass}
+driverClassName: com.mysql.cj.jdbc.Driver
