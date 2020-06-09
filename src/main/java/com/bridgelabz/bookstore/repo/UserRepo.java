@@ -7,7 +7,7 @@ import com.bridgelabz.bookstore.model.User;
 public interface UserRepo {
 	public void addUser(User user);
 
-	public User findById(Long id);
+	public User findByUserId(Long id);
 
 	public List<User> getUser();
 
@@ -16,4 +16,6 @@ public interface UserRepo {
 	public void delete(Long id);
 
 	public List<User> findByEmail(String email);
+
+	public void verify(Long id);
 }

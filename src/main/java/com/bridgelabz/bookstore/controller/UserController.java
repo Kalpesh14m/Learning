@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.bookstore.exception.UserNotFoundException;
 import com.bridgelabz.bookstore.model.User;
+import com.bridgelabz.bookstore.model.dto.LoginDTO;
 import com.bridgelabz.bookstore.model.dto.RegistrationDTO;
+import com.bridgelabz.bookstore.response.Response;
 import com.bridgelabz.bookstore.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -29,6 +33,16 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@GetMapping("/verify")
+	public ResponseEntity<Response> userVerification(@RequestParam("token") String token) {
+		return userService.verify(token);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<Response> userLogin(@RequestBody LoginDTO logindto) throws UserNotFoundException {
+		return userService.login(logindto);
+	}
 
 	@PostMapping(value = "/register", headers = "Accept=application/json")
 	public ResponseEntity<Void> register(@RequestBody RegistrationDTO request) {

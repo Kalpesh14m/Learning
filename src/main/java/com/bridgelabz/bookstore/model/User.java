@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 
 public class User {
-	@GenericGenerator(name = "userid", strategy = "increment")
+	@GenericGenerator(name = "user_id", strategy = "increment")
 	@GeneratedValue(generator = "userid")
 	@Id
 	private Long id;
@@ -34,6 +34,9 @@ public class User {
 	@Column(name = "last_name", nullable = false)
 	@Size(min = 3)
 	private String lastName;
+
+	@Column
+	private String userName;
 
 	@Column(name = "email", unique = true, nullable = false)
 	@Email
@@ -105,6 +108,14 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getEmail() {

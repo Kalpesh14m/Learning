@@ -2,15 +2,18 @@ package com.bridgelabz.bookstore.repo;
 
 import java.util.List;
 
-import org.hibernate.query.Query;
+import javax.transaction.Transactional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bridgelabz.bookstore.model.User;
 
 @Repository
+@Transactional
 public class UserDaoImp implements UserRepo {
 
 	@Autowired
@@ -20,12 +23,16 @@ public class UserDaoImp implements UserRepo {
 		sessionFactory.getCurrentSession().save(user);
 	}
 
-	public User findById(Long id) {
+	public User findByUserId(Long id) {
 		return sessionFactory.getCurrentSession().get(User.class, id);
 	}
 
 	public List<User> getUser() {
-		return sessionFactory.getCurrentSession().createQuery("FROM User").list();
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM User";
+		Query query = session.createQuery(hql);
+		List results = query.list();
+		return results;
 	}
 
 	public User update(User val, Long id) {
@@ -39,7 +46,7 @@ public class UserDaoImp implements UserRepo {
 
 	public void delete(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		User user = findById(id);
+		User user = findByUserId(id);
 		session.delete(user);
 	}
 
@@ -51,6 +58,14 @@ public class UserDaoImp implements UserRepo {
 		query.setParameter("email", email);
 		List results = query.list();
 		return results;
+	}
+
+	@Override
+	public void verify(Long id) {
+		Session session = sessionFactory.getCurrentSession();
+		User user = (User) session.get(User.class, id);
+		user.setVerify(true);
+		session.update(user);
 	}
 
 }
